@@ -1,4 +1,5 @@
 <html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 <style>
 
 
@@ -212,8 +213,8 @@ a {
 		  <li class="nav-line"><a href="#news">News</a></li>
 		  <li class="nav-line"><a href="#contact">Contact</a></li>
 		  <li class="nav-line"><a href="#about">About</a></li>
-		  <li class="nav-line" id="login-modal-button" style="float:right"><a>Sign in</a></li>
-		  <li class="nav-line" id="sign-ip-modal" style="float:right"><a>Sign up</a></li>
+		  <li class="nav-line" id="login-modal-button" style="float:right;cursor: pointer"><a>Sign in</a></li>
+		  <li class="nav-line" id="sign-ip-modal" style="float:right;cursor: pointer"><a>Sign up</a></li>
 		</ul>
 		
 		<!-- The Register Modal -->
@@ -221,14 +222,14 @@ a {
 		  <!-- Modal content -->
 		  <div class="modal-content">
 		    <span class="close">&times;</span>
-		    <form name="form" action="addStudent" method="post" onsubmit="return validate()">
+		    <form name="form" action="addStudent" method="post">
 			  <div class="register-modal-form">
 			    <h1>Register</h1>
 			    <p>Please fill in this form to create an account.</p>
 			    <hr>
 			
 			    <label for="nic"><b>NIC</b></label>
-			    <input type="text" placeholder="Enter NIC" name="nic" id="nic">
+			    <input type="text" placeholder="Enter NIC" name="nic" id="nic" required>
 				<p id="nicvalidation" style="color: red"></p>
 				<p id="nicvalidationok" style="color: green"></p>
 			
@@ -251,7 +252,7 @@ a {
 				
 				
 				<label><b>Province</b></label><br><br>
-			    <select id="province">
+			    <select id="province" name="province">
 				    <option>--SELECT--</option>
 				  </select>
 				<p id="provincevalidation" style="color: red"></p>
@@ -259,7 +260,7 @@ a {
 				<br><br>
 				
 				<label><b>District</b></label><br><br>
-			    <select id="district">
+			    <select id="district" name="district">
 				    <option>--SELECT--</option>
 				  </select>
 				<p id="districtvalidation" style="color: red"></p>
@@ -283,7 +284,7 @@ a {
 			    <hr>
 			
 			    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-			    <button type="submit" class="registerbtn">Register</button>
+			    <button type="submit" class="registerbtn" onclick="validate()">Register</button>
 			  </div>
 			
 			  <div class="container signin">
@@ -300,20 +301,21 @@ a {
 		  <!-- Modal content -->
 		  <div class="modal-contentLogin">
 		  <span class="close-login">&times;</span>
-		      <form action="/action_page.php">
+		      <form id="loginForm">
 				  <div class="login-container">
 				    <h1>Login</h1>
 				    <p>Please enter username and password to access your account.</p>
 				    <hr>
 				
 				    <label for="email"><b>Email</b></label>
-				    <input type="text" placeholder="Enter Email" name="email" id="email" required>
-				
-				    <label for="psw"><b>Password</b></label>
-				    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-				
+				    <input type="text" placeholder="Enter Email" name="email" id="email" >
+					<p id="error"></p>
+					
+				    <label for="password"><b>Password</b></label>
+				    <input type="password" placeholder="Enter Password" name="password" id="password" >
+					<p id="error1"></p>
 				  				
-				    <button type="submit" class="loginbtn">Login</button>
+				    <button type="submit" class="loginbtn" onclick="myFunction()">Login</button>
 				    <div class="container signin">
 			    		<p id="noAccount">You don't have an account? <a onclick="noAccount()" style="cursor: pointer">Sign up</a>.</p>
 			  		</div>
@@ -393,7 +395,6 @@ a {
 		  loginModal.style.display = "none";
 	  }
 	}
-
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
@@ -404,7 +405,6 @@ $(document).ready(function(){
 		method: "GET",
 		data: {operation: 'province'},
 		success: function (data, textStatus, jqXHR){
-			console.log(data);
 			let obj = $.parseJSON(data);
 			$.each(obj, function (key, value) {
 				$('#province').append('<option value="' + value.provinceId+'">' + value.provinceName + '</option>')
@@ -421,7 +421,6 @@ $(document).ready(function(){
 		$('#district').append('<option>Select District</option>');
 
 		let pId = $('#province').val();
-		console.log(pId);
 		let districtData = {
 				operation: "district",
 				id: pId
@@ -433,7 +432,6 @@ $(document).ready(function(){
 			method: "GET",
 			data: districtData,
 			success: function (data, textStatus, jqXHR){
-				console.log(data);
 				let obj = $.parseJSON(data);
 				$.each(obj, function (key, value) {
 					$('#district').append('<option value="' + value.districtId +'">' + value.districtName + '</option>')
@@ -444,145 +442,20 @@ $(document).ready(function(){
 		});
 });
 </script>
+
 <script>
-	function validate(){
+function myFunction() {
+	  let mail = document.getElementById("email").value;
+	  let text;
 
-		let nic = document.getElementById("nic").value;
-		let textnic;
-		let textnicok;
+	  if (isNaN(mail) || mail < 1 || mail > 10) {
+	    text = "Input not valid";
+	  } else {
+	    text = "Input OK";
+	  }
+	  document.getElementById("error").innerHTML = text;
 
-		let name = document.getElementById("name").value;
-		let textname;
-		let textnameok;
-
-		let birthday = document.getElementById("birthday").value;
-		let textbirthday;
-		let textbirthdayok;
-
-		let address = document.getElementById("address").value;
-		let textaddress;
-		let textaddressok;
-
-		let province = document.getElementById("province").value;
-		let textprovince;
-		let textprovinceok;
-
-		let district = document.getElementById("district").value;
-		let textdistrict;
-		let textdistrictok;
-
-		let email = document.getElementById("email").value;
-		let textemail;
-		let textemailok;
-
-		let password = document.getElementById("password").value;
-		let textpassword;
-		let textpasswordok;
-
-		let psw-repeat = document.getElementById("psw-repeat").value;
-		let textpsw-repeat;
-		let textpsw-repeatok;
-/* 		var nic = document.form.nic.value;
-		var name = document.form.name.value;
-		var dob = document.form.dob.value;
-		var address = document.form.address.value;
-		var province = document.form.province.value;
-		var district = document.form.district.value;
-		var email = document.form.email.value;
-		var password = document.form.password.value;
-		var repassword = document.form.repassword.value;
- */
-
- 		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textnic = "NIC field is empty. You must add it";
-		  } else if(x <= 10){
-			    textnic = "NIC should not larger than 10";
-		  } else {
-				textnic = "NIC ok";
-		  }
-          
-		  document.getElementById("nicvalidation").innerHTML = textnic;
-		  document.getElementById("nicvalidationok").innerHTML = textnicok;
-
-		  
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textname = "Name field is empty. You must add it";
-		  } else{
-			    textnameok = "Name ok";
-		  }
-		  document.getElementById("namevalidation").innerHTML = text;
-		  document.getElementById("namevalidationok").innerHTML = textnameok;
-
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textbirthday = "Birthday field is empty. You must add it";
-		  } else{
-			    textbirthdayok = "Birthday ok";
-		  }
-		  document.getElementById("birthdayvalidation").innerHTML = textbirthday;
-		  document.getElementById("birthdayvalidationok").innerHTML = textbirthdayok;
-
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textaddress = "Address field is empty. You must add it";
-		  } else{
-			    textaddressok = "Address ok";
-		  }
-		  document.getElementById("addressvalidation").innerHTML = textaddress;
-		  document.getElementById("addressvalidationok").innerHTML = textaddressok;
-		  
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textprovince = "Province field is empty. You must add it";
-		  } else{
-			    textprovinceok = "Province ok";
-		  }
-		  document.getElementById("provincevalidation").innerHTML = textprovince;
-		  document.getElementById("provincevalidationok").innerHTML = textprovinceok;
-
-
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textdistrict = "District field is empty. You must add it";
-		  } else{
-			    textdistrictok = "District ok";
-		  }
-		  document.getElementById("districtvalidation").innerHTML = textdistrict;
-		  document.getElementById("districtvalidationok").innerHTML = textdistrictok;
-		  
-		  
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textemail = "Email field is empty. You must add it";
-		  } else{
-			    textemailok = "Email ok";
-		  }
-		  document.getElementById("emailvalidation").innerHTML = textemail;
-		  document.getElementById("emailvalidationok").innerHTML = textemailok;
-
-		  /* ########################################################################  */
-		  if (x==null || x=="" ) {
-			    textpassword = "Password field is empty. You must add it";
-		  } else{
-			    textpasswordok = "Password ok";
-		  }
-		  document.getElementById("passwordvalidation").innerHTML = textpassword;
-		  document.getElementById("passwordvalidationok").innerHTML = textpasswordok;
-
-		  
-		  /* ########################################################################  */
-		  if (password != psw-repeat) {
-			    textpsw-repeat = "Password not matching";
-		  } else{
-			    textpsw-repeatok = "Password matched";
-		  }
-		  document.getElementById("psw-repeatvalidation").innerHTML = textpsw-repeat;
-		  document.getElementById("psw-repeatvalidationok").innerHTML = textpsw-repeatok;
-
-		 	
-	}
+	}	
 </script>
 </body>
 </html>

@@ -1,14 +1,10 @@
 package com.controller;
 
 import java.io.IOException;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.util.threads.ResizableExecutor;
 
 import com.modal.Student;
 import com.service.StudentService;
@@ -42,6 +38,7 @@ public class StudentController extends HttpServlet {
 		 String password = request.getParameter("password");
 		 String repassword = request.getParameter("psw-repeat");
 		 
+		 
 		 Student student = new Student();
 		 
 		 student.setNic(nic);
@@ -60,6 +57,9 @@ public class StudentController extends HttpServlet {
 		 
 		 if(studentRegistered.equals("SUCCESS")){
 			 request.getRequestDispatcher("/student.jsp").forward(request, response);
+		 }else {
+			 request.setAttribute("ERROR", studentRegistered);
+			 request.getRequestDispatcher("/index.jsp").forward(request, response);
 		 }
 	}
 
