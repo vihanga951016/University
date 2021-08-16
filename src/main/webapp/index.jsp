@@ -284,7 +284,7 @@ a {
 			    <hr>
 			
 			    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-			    <button type="submit" class="registerbtn" onclick="validate()">Register</button>
+			    <button type="submit" class="registerbtn">Register</button>
 			  </div>
 			
 			  <div class="container signin">
@@ -315,7 +315,7 @@ a {
 				    <input type="password" placeholder="Enter Password" name="password" id="password" >
 					<p id="error1"></p>
 				  				
-				    <button type="submit" class="loginbtn" onclick="myFunction()">Login</button>
+				    <button class="loginbtn" onclick="myFunction()">Login</button>
 				    <div class="container signin">
 			    		<p id="noAccount">You don't have an account? <a onclick="noAccount()" style="cursor: pointer">Sign up</a>.</p>
 			  		</div>
@@ -328,8 +328,6 @@ a {
 		
 	</div>
 <script>
-
-
 	function hasAccount() {
 	  document.getElementById("myModal").style.display = "none";
 	  document.getElementById("login-modal").style.display = "block";
@@ -455,6 +453,7 @@ function myFunction() {
 	  }
 	  document.getElementById("error").innerHTML = text;
 
+	  
 	}	
 </script>
 </body>
