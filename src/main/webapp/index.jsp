@@ -11,7 +11,7 @@ margin-right: auto;
 margin-top: 60px;
 padding-right: 10px; /* 3 */
 padding-left: 10px; /* 3 */
-background-color: transparent;
+background-color: blue;
 }
 
 .navbar {
