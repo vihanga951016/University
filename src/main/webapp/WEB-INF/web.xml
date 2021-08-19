@@ -16,6 +16,18 @@
   	<description></description>
   	<servlet-class>com.controller.ProvinceController</servlet-class>
   </servlet>
+ <servlet>
+  	<servlet-name>LoginController</servlet-name>
+  	<display-name>LoginController</display-name>
+  	<description></description>
+  	<servlet-class>com.controller.LoginController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LogoutController</servlet-name>
+  	<display-name>LogoutController</display-name>
+  	<description></description>
+  	<servlet-class>com.controller.LogoutController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>StudentController</servlet-name>
   	<url-pattern>/addStudent</url-pattern>
@@ -23,5 +35,13 @@
   <servlet-mapping>
   	<servlet-name>ProvinceController</servlet-name>
   	<url-pattern>/ProvinceController</url-pattern>
+  </servlet-mapping>
+ <servlet-mapping>
+  	<servlet-name>LoginController</servlet-name>
+  	<url-pattern>/LoginController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LogoutController</servlet-name>
+  	<url-pattern>/LogoutController</url-pattern>
   </servlet-mapping>
 </web-app>

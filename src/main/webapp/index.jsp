@@ -1,5 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
 <html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+<title>Home</title>
+</head>
 <style>
 
 
@@ -301,7 +308,7 @@ a {
 		  <!-- Modal content -->
 		  <div class="modal-contentLogin">
 		  <span class="close-login">&times;</span>
-		      <form id="loginForm">
+		      <form id="loginForm" action="LoginController" method="post">
 				  <div class="login-container">
 				    <h1>Login</h1>
 				    <p>Please enter username and password to access your account.</p>
@@ -315,7 +322,7 @@ a {
 				    <input type="password" placeholder="Enter Password" name="password" id="password" >
 					<p id="error1"></p>
 				  				
-				    <button class="loginbtn" onclick="myFunction()">Login</button>
+				    <button class="loginbtn">Login</button>
 				    <div class="container signin">
 			    		<p id="noAccount">You don't have an account? <a onclick="noAccount()" style="cursor: pointer">Sign up</a>.</p>
 			  		</div>
